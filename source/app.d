@@ -4,6 +4,7 @@ import std.random;
 
 import derelict.sdl2.sdl;
 import derelict.sdl2.image;
+import derelict.sdl2.functions;
 //import derelict.sdl2.mixer;
 //import derelict.sdl2.ttf;
 //import derelict.sdl2.net;
@@ -25,13 +26,15 @@ bool loadMedia()
 {
     bool success = true;
     fontTexture = new Texture(renderer, window);
-    fontTexture.loadFromFile("resources/size11_0.png");
+    fontTexture.loadFromFile("resources/c_0.png");
     if (fontTexture is null)
     {
         success = false;
         writeln("Error loading font texture",SDL_GetError());
     }
-    auto fontFile = readText("resources/size11.fnt");
+    fontTexture.setBlendMode( SDL_BLENDMODE_BLEND);
+    fontTexture.setColor(255,255,0);
+    auto fontFile = readText("resources/c.fnt");
     if (fontFile is null)
     {
         success = false;
@@ -40,12 +43,13 @@ bool loadMedia()
     fontTexture.makeFramesFromBMFontString(fontFile);
     
     imgTexture = new Texture(renderer, window);
-
     imgTexture.loadFromFile("resources/atlas/spritesheet.png");
     if (imgTexture is null){
         success = false;
         writeln("Error loading sprite texture", SDL_GetError());
     }
+    imgTexture.setBlendMode( SDL_BLENDMODE_BLEND);
+
     auto imgSpriteSheetJSON = readText("resources/atlas/spritesheet.json");
     if (imgSpriteSheetJSON is null) {
         success = false;
@@ -67,17 +71,17 @@ bool init()
     }
     else
     {
-        if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1"))
-        {
-            writeln( "Warning: Linear texture filtering not enabled!" );
-        }
+        //if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0"))
+        //{
+        //    writeln( "Warning: Linear texture filtering not enabled!" );
+        //}
 
         window = SDL_CreateWindow( "SDL Tutorial",
                                    SDL_WINDOWPOS_UNDEFINED, 
                                    SDL_WINDOWPOS_UNDEFINED, 
                                    SCREEN_WIDTH, 
                                    SCREEN_HEIGHT, 
-                                   SDL_WINDOW_SHOWN );
+                                   SDL_WINDOW_SHOWN|SDL_WINDOW_FULLSCREEN_DESKTOP );
         if( window == null )
         {
             writeln( "Window could not be created! SDL_Error: ", SDL_GetError() );
@@ -85,7 +89,8 @@ bool init()
         }
         else
         {
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             if( renderer == null )
             {
                 writeln( "Renderer could not be created! SDL Error:", SDL_GetError() );
@@ -118,7 +123,6 @@ void close()
     renderer = null;
 
     //Quit SDL subsystems
-    //TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 
@@ -126,10 +130,10 @@ void close()
 
 void main() 
 {
+    
     DerelictSDL2.load();
     DerelictSDL2Image.load();
     //DerelictSDL2Mixer.load();
-    //DerelictSDL2ttf.load();
     //DerelictSDL2Net.load();
     auto deg = 0;
 
@@ -155,15 +159,26 @@ void main()
                     {
                         quit = true;
                     }
+                    else if( e.type == SDL_KEYDOWN )
+                    {
+                        switch( e.key.keysym.sym )
+                        {
+                        case SDLK_ESCAPE:
+                            quit = true;
+                            break;
+                        default:
+                            break;
+                        }
+                    }
                 }
-
+                
 
 
 
 
                 
                 //Clear screen
-                SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+                SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
                 SDL_RenderClear( renderer );
                 auto str  = 
 "And shall do so ever, though I took him at 's
@@ -194,10 +209,14 @@ Giving a letter
 I leave you to your wisdom.";
 
                 fontTexture.drawText(str, 10,100);
-                imgTexture.drawImage("fourA0.png", 20,20, 45);
-                imgTexture.drawImage("fourA1.png", 40,20, 45);
-                imgTexture.drawImage("fourA2.png", 40,20, deg++ );
-                imgTexture.drawImage("fourA3.png", 20,20, 45+deg);
+                
+                //imgTexture.drawImage("fourA0.png", 145,20, deg);
+                //imgTexture.drawImage("fourA1.png", 130,20, deg);
+                for (int i = 0; i<2500; i++){
+                    imgTexture.drawImage("fourA2.png", 160+uniform(0,800) ,20+uniform(0,400) );
+                    imgTexture.drawImage("fourA3.png",160+uniform(0,800) ,20+uniform(0,400));
+                }
+                
                 //Render current frame
                 //gTextTexture.render( ( SCREEN_WIDTH - gTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gTextTexture.getHeight() ) / 2 );
 

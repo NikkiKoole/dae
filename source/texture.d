@@ -99,41 +99,44 @@ public:
     bool loadFromFile(string path) 
     {
         free();
-        SDL_Texture* newTexture = null;
-        SDL_Surface* loadedSurface = IMG_Load(path.ptr);    
-        if (loadedSurface == null) 
-        {
-            writeln("Unable to load image ",path," SDL_Error: ",IMG_GetError());
-        }
-        else
-        {
-            SDL_Surface* formattedSurface = SDL_ConvertSurface(loadedSurface, SDL_GetWindowSurface(window).format, 0);
-            if (formattedSurface == null)
-            {
-                writeln("Unable to convert surface to display format! SDL_Error: ", SDL_GetError());
-            }
-            else{
-                newTexture = SDL_CreateTexture(renderer,
-                                               SDL_GetWindowPixelFormat(window), 
-                                               SDL_TEXTUREACCESS_STREAMING, 
-                                               formattedSurface.w,
-                                               formattedSurface.h);
+        //SDL_Texture* newTexture = null;
+        //SDL_Surface* loadedSurface = IMG_Load(path.ptr);
+        //IMG_LoadTexture() 
+        SDL_Texture* newTexture = IMG_LoadTexture(renderer, path.ptr);
+        // writeln(cool);
+        // if (loadedSurface == null) 
+        // {
+        //     writeln("Unable to load image ",path," SDL_Error: ",IMG_GetError());
+        // }
+        // else
+        // {
+        //     SDL_Surface* formattedSurface = SDL_ConvertSurface(loadedSurface, SDL_GetWindowSurface(window).format, 0);
+        //     if (formattedSurface == null)
+        //     {
+        //         writeln("Unable to convert surface to display format! SDL_Error: ", SDL_GetError());
+        //     }
+        //     else{
+        //         newTexture = SDL_CreateTexture(renderer,
+        //                                        SDL_GetWindowPixelFormat(window), 
+        //                                        SDL_TEXTUREACCESS_STREAMING, 
+        //                                        formattedSurface.w,
+        //                                        formattedSurface.h);
                 
-                if (newTexture == null){
-                    writeln("Unable to create blank texture! SDL_Error: ", SDL_GetError());
-                }
-                else {
-                    SDL_LockTexture(newTexture, null, &mPixels, &mPitch);
-                    memcpy(mPixels, formattedSurface.pixels, formattedSurface.pitch * formattedSurface.h);
-                    SDL_UnlockTexture(newTexture);
-                    mPixels = null;
-                    mWidth = formattedSurface.w;
-                    mHeight = formattedSurface.h;
-                }
-                SDL_FreeSurface(formattedSurface);
-            }
-            SDL_FreeSurface(loadedSurface);
-        }
+        //         if (newTexture == null){
+        //             writeln("Unable to create blank texture! SDL_Error: ", SDL_GetError());
+        //         }
+        //         else {
+        //             SDL_LockTexture(newTexture, null, &mPixels, &mPitch);
+        //             memcpy(mPixels, formattedSurface.pixels, formattedSurface.pitch * formattedSurface.h);
+        //             SDL_UnlockTexture(newTexture);
+        //             mPixels = null;
+        //             mWidth = formattedSurface.w;
+        //             mHeight = formattedSurface.h;
+        //         }
+        //         SDL_FreeSurface(formattedSurface);
+        //     }
+        //     SDL_FreeSurface(loadedSurface);
+        // }
         mTexture = newTexture;
         return mTexture != null;
     }
