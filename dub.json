@@ -1,0 +1,11 @@
+{
+	"name": "dae",
+	"description": "A very basic 2d graphics framework in and for D .",
+	"authors": ["Nikki Koole"],
+	"homepage": "https://github.com/NikkiKoole/dae",
+	"license": "GPL-2.0",
+	"dependencies": {
+		"derelict-sdl2":"~>1.0.0",
+
+	}
+}

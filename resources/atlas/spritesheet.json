@@ -1,0 +1,41 @@
+{
+	"meta": {
+		"image": "spritesheet.png",
+		"size": {"w":64,"h":59},
+		"scale": "1"
+	},
+	"frames": {
+		"fourA0.png":
+		{
+            "frame": {"x":0,"y":0,"w":32,"h":32},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+            "sourceSize": {"w":32,"h":32}
+		},
+		"fourA1.png":
+		{
+            "frame": {"x":32,"y":0,"w":32,"h":32},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+            "sourceSize": {"w":32,"h":32}
+		},
+		"fourA2.png":
+		{
+			"frame": {"x":0,"y":32,"w":27,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":3,"y":5,"w":27,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"fourA3.png":
+		{
+			"frame": {"x":27,"y":32,"w":12,"h":16},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":11,"y":5,"w":12,"h":16},
+			"sourceSize": {"w":32,"h":32}
+		}
+	}
+}
